@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- 枪口榴弹  -->
+	<AbilityDef>
+    <defName>AbilityRKRifleGrenade</defName>
+    <label>launch rifle granate</label>
+    <description>这里输入简介</description>
+    <iconPath>UI/icon/RKRifleGrenadeTexture_a</iconPath>
+    <aiCanUse>false</aiCanUse>
+    <showOnCharacterCard>false</showOnCharacterCard>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <requireLineOfSight>false</requireLineOfSight>
+      <range>18.9</range>
+      <warmupTime>2.0</warmupTime>
+      <noiseRadius>4</noiseRadius>
+		  <forcedMissRadius>0.5</forcedMissRadius>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+      <soundCast>Shot_IncendiaryLauncher</soundCast>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityLaunchProjectile">
+        <projectileDef>Projectile_RKRifleGrenade</projectileDef>
+      </li>
+    </comps>
+  </AbilityDef>
+
+	<ThingDef ParentName="BaseBullet">
+    <defName>Projectile_RifleGrenade</defName>
+    <label>rifle granate</label>
+    <graphicData>
+      <texPath>Weapons/Projectile/RK_RifleGrenade_Projectile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+      <projectile>
+        <damageDef>Bomb</damageDef>
+        <explosionRadius>1.9</explosionRadius>
+        <speed>15</speed>
+        <explosionDelay>1</explosionDelay>
+        <stoppingPower>0.2</stoppingPower>
+        <damageAmountBase>40</damageAmountBase>
+        <armorPenetrationBase>0.29</armorPenetrationBase>
+      </projectile>
+  </ThingDef>
+
+</Defs>

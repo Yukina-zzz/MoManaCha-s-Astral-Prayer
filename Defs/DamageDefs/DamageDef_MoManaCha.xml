@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <DamageDef ParentName="Bullet">
+    <defName>MoManaCha_Bullet</defName>
+    <label>MoManaCha Bullet</label>
+    <additionalHediffs>
+      <li>
+        <hediff>PregnancyLaborPushing</hediff>
+        <severityPerDamageDealt>1</severityPerDamageDealt>
+      </li>
+    </additionalHediffs>
+    <applyAdditionalHediffsIfHuntingForFood>false</applyAdditionalHediffsIfHuntingForFood>
+  </DamageDef>
+  
+  <DamageDef ParentName="Bullet">
+    <defName>MoManaCha_Anesthetic</defName>
+    <label>MoManaCha Anesthetic</label>
+    <additionalHediffs>
+      <li>
+        <hediff>Anesthetic</hediff>
+        <severityPerDamageDealt>1</severityPerDamageDealt>
+      </li>
+    </additionalHediffs>
+    <applyAdditionalHediffsIfHuntingForFood>false</applyAdditionalHediffsIfHuntingForFood>
+  </DamageDef>
+  
+  <DamageDef ParentName="Bomb">
+    <defName>MoManaCha_Bomb</defName>
+    <label>MoManaCha bomb</label>
+    <additionalHediffs>
+      <li>
+        <hediff>PregnancyLaborPushing</hediff>
+        <severityPerDamageDealt>1</severityPerDamageDealt>
+      </li>
+    </additionalHediffs>
+    <applyAdditionalHediffsIfHuntingForFood>false</applyAdditionalHediffsIfHuntingForFood>
+  </DamageDef>
+</Defs>
