@@ -23,7 +23,7 @@
     </verbProperties>
     <comps>
       <li Class="CompProperties_AbilityLaunchProjectile">
-        <projectileDef>Projectile_RKRifleGrenade</projectileDef>
+        <projectileDef>Projectile_RifleGrenade</projectileDef>
       </li>
     </comps>
   </AbilityDef>

@@ -9,12 +9,6 @@
 		<li>1.5</li>
 	</supportedVersions>
 	
-	<loadAfter>
-	</loadAfter>
-	
-	<loadBefore>
-	</loadBefore>
-	
 	<description>
 	tast
 	</description>

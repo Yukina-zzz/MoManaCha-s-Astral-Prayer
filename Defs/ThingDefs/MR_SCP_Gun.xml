@@ -193,7 +193,7 @@
     <label>CQBAR15麻醉突击步枪</label>
     <description>CQ突击步枪的卡宾枪型，其外观及设计与M4卡宾枪极为相似，虽然外形类似M4但其确实是在CQ系列上改进制作，主要运动部件枪机与枪机框无变化，适合CQB作战。</description>
     <graphicData>
-      <texPath>Things/CQBAR15</texPath>
+      <texPath>Things/Weapons/CQBAR15</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>0.75</drawSize>
     </graphicData>

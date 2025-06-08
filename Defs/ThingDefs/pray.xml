@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- ========== CQBAR15 ========== -->
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>MoManaCha_pray</defName>
+    <label>星穹祈愿诗</label>
+    <description>柠萌茶的专属法杖。</description>
+    <graphicData>
+      <texPath>Things/Weapons/The 42nd Psalm</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.5</drawSize>
+    </graphicData>
+    <!--equippedAngleOffset>40</equippedAngleOffset-->
+    <soundInteract>Interact_Rifle</soundInteract>
+    <recipeMaker>
+      <researchPrerequisite>PrecisionRifling</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <displayPriority>400</displayPriority>
+    </recipeMaker>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
+    <statBases>
+      <WorkToMake>48000</WorkToMake>
+      <Mass>3</Mass>
+      <AccuracyTouch>0.88</AccuracyTouch>
+      <AccuracyShort>0.72</AccuracyShort>
+      <AccuracyMedium>0.55</AccuracyMedium>
+      <AccuracyLong>0.50</AccuracyLong>
+      <RangedWeapon_Cooldown>1.1</RangedWeapon_Cooldown>
+      <EnergyShieldEnergyMax>1.5</EnergyShieldEnergyMax> <!-- 决定护盾容量 -->
+      <EnergyShieldRechargeRate>0.25</EnergyShieldRechargeRate> <!-- 决定充能速度 -->
+    </statBases>
+    <costList>
+      <Steel>90</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_CQBAR15Rifle</defaultProjectile>
+        <warmupTime>1</warmupTime>
+        <range>30</range>
+        <burstShotCount>5</burstShotCount>
+        <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
+        <soundCast>CQBAR15</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <weaponTags>
+      <li>IndustrialGunAdvanced</li>
+      <li>AssaultRifle</li>
+    </weaponTags>
+    <comps>
+      <!-- 这个 li 的 Class 属性必须是 "命名空间.类名" -->
+      <li Class="MoManaCha_Astral_Prayer.CompProperties_WeaponShield">
+        <minDrawSize>1.2</minDrawSize>
+        <maxDrawSize>1.8</maxDrawSize>
+        <energyLossPerDamage>1.2</energyLossPerDamage>
+        <ticksToReset>3200</ticksToReset>
+      </li>
+    </comps>
+    <tools>
+      <li>
+        <label>杖击</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>12</power>
+        <cooldownTime>0.6</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_pray</defName>
+    <label>魔法飞弹</label>
+    <graphicData>
+      <texPath>Things/Mote/star_c</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.5</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>9</damageAmountBase>
+      <armorPenetrationBase>0.28</armorPenetrationBase>
+      <speed>75</speed>
+    </projectile>
+  </ThingDef>
+</Defs>
