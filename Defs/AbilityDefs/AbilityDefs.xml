@@ -6,7 +6,7 @@
     <defName>AbilityRKRifleGrenade</defName>
     <label>launch rifle granate</label>
     <description>这里输入简介</description>
-    <iconPath>UI/icon/RKRifleGrenadeTexture_a</iconPath>
+    <iconPath>UI/icon/RifleGrenadeTexture_a</iconPath>
     <aiCanUse>false</aiCanUse>
     <showOnCharacterCard>false</showOnCharacterCard>
     <verbProperties>
@@ -32,7 +32,7 @@
     <defName>Projectile_RifleGrenade</defName>
     <label>rifle granate</label>
     <graphicData>
-      <texPath>Weapons/Projectile/RK_RifleGrenade_Projectile</texPath>
+      <texPath>Projectile/RifleGrenade_Projectile</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <thingClass>Projectile_Explosive</thingClass>
