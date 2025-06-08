@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
+        <defName>MagicShieldStaff</defName>
+        <label>魔力护盾法杖</label>
+        <description><![CDATA[一根蕴含着强大魔力的法杖。当持有时，会在持有者周围形成一个魔法护盾，可以阻挡远程攻击和爆炸伤害，但不会阻止持有者自己的攻击。护盾依靠魔力自动恢复，但如果短时间内受到大量伤害会导致护盾崩溃并给持有者带来负面效果。]]></description>
+        <graphicData>
+            <texPath>Things/Item/Equipment/WeaponMelee/Mace</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+            <color>(170, 27, 106)</color> <!-- 0-255格式 -->
+            <!-- 或者 <color>(0.667, 0.106, 0.416)</color> --> <!-- 0-1格式 -->
+        </graphicData>
+        <soundInteract>Interact_Rifle</soundInteract>
+        <costStuffCount>75</costStuffCount>
+        <stuffCategories>
+            <li>Metallic</li>
+            <li>Woody</li>
+        </stuffCategories>
+        <statBases>
+            <WorkToMake>15000</WorkToMake>
+            <Mass>3.5</Mass>
+            <!-- 关键属性：定义护盾的最大能量和充能速度 -->
+            <!-- 这些依然通过statBases定义，因为它们可能受品质等因素影响 -->
+            <EnergyShieldEnergyMax>50</EnergyShieldEnergyMax>            <!-- 决定护盾容量 -->
+            <EnergyShieldRechargeRate>5</EnergyShieldRechargeRate>            <!-- 决定充能速度 -->
+        </statBases>
+        <equippedStatOffsets>
+            <MoveSpeed>-0.1</MoveSpeed>
+        </equippedStatOffsets>
+        <weaponTags>
+            <li>MedievalMeleeAdvanced</li>
+        </weaponTags>
+        <weaponClasses>
+            <li>Melee</li>
+        </weaponClasses>
+        <tools>
+            <li>
+                <label>头部</label>
+                <capacities>
+                    <li>Blunt</li>
+                </capacities>
+                <power>12</power>
+                <cooldownTime>2.3</cooldownTime>
+            </li>
+            <li>
+                <label>柄部</label>
+                <capacities>
+                    <li>Blunt</li>
+                    <li>Poke</li>
+                </capacities>
+                <power>9</power>
+                <cooldownTime>2.0</cooldownTime>
+            </li>
+        </tools>
+        <recipeMaker>
+            <researchPrerequisite>LongBlades</researchPrerequisite>
+            <skillRequirements>
+                <Crafting>6</Crafting>
+            </skillRequirements>
+        </recipeMaker>
+        <tickerType>Normal</tickerType>
+        <comps>
+            <!-- 这个 li 的 Class 属性必须是 "命名空间.类名" -->
+            <li Class="MoManaCha_Astral_Prayer.CompProperties_WeaponShield">
+                <!-- 在这里配置所有新属性 -->
+
+                <!-- 视觉效果 -->
+                <minDrawSize>1.4</minDrawSize>
+                <maxDrawSize>1.6</maxDrawSize>
+
+                <!-- 核心数值 -->
+                <energyLossPerDamage>1.0</energyLossPerDamage>                <!-- 1点伤害消耗1点能量 -->
+                <ticksToReset>3200</ticksToReset>                <!-- 破碎后约53秒重置 -->
+                <energyOnReset>0.2</energyOnReset>                <!-- 重置后恢复20%能量 -->
+
+                <!-- 特效与音效 (如果使用原版音效，可以不写，代码中有默认值) -->
+                <hitEffectFadeoutTicks>10</hitEffectFadeoutTicks>                <!-- 护盾被击中后涟漪效果的持续时间 -->
+                <hitEffectDisplacement>0.06</hitEffectDisplacement>                <!-- 涟漪效果的位移幅度 -->
+
+                <!-- 自定义的音效和特效 -->
+                <!-- <soundAbsorb>EnergyShield_AbsorbDamage</soundAbsorb> -->                <!-- 吸收伤害的音效 -->
+                <soundReset>EnergyShield_Reset</soundReset>                <!-- 护盾重置的音效 -->
+                <!-- <effecterBreak>Shield_Break</effecterBreak> -->                <!-- 护盾破碎的特效 -->
+            </li>
+        </comps>
+    </ThingDef>
+</Defs>
