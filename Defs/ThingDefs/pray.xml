@@ -41,7 +41,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_CQBAR15Rifle</defaultProjectile>
+        <defaultProjectile>Bullet_pray</defaultProjectile>
         <warmupTime>1</warmupTime>
         <range>30</range>
         <burstShotCount>5</burstShotCount>
