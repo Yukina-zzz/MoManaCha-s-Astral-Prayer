@@ -31,7 +31,7 @@ namespace MoManaCha_Astral_Prayer // 您可以替换成自己的Mod命名空间
         public SoundDef soundAbsorb = null; // 吸收伤害的音效
         public SoundDef soundReset = null;         // 护盾重置的音效
         public EffecterDef effecterBreak = null;      // 护盾破碎的特效
-        //public Color shieldColor = new Color(0.5f, 0.8f, 0.9f, 0.4f);       //护盾颜色
+        public Color shieldColor = new Color(0.5f, 0.8f, 0.9f);       //护盾颜色
 
         public CompProperties_WeaponShield()
         {
@@ -100,7 +100,7 @@ namespace MoManaCha_Astral_Prayer // 您可以替换成自己的Mod命名空间
                 return;
             }
 
-            Color color = parent.def.graphicData.color;
+            Color color = Props.shieldColor;
             // 创建全新的材质
             shieldMaterial = new Material(ShaderDatabase.MoteGlow);
             shieldMaterial.mainTexture = ShieldBubbleTexture;

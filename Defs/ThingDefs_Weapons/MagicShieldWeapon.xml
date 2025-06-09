@@ -7,8 +7,6 @@
         <graphicData>
             <texPath>Things/Item/Equipment/WeaponMelee/Mace</texPath>
             <graphicClass>Graphic_Single</graphicClass>
-            <color>(170, 27, 106)</color> <!-- 0-255格式 -->
-            <!-- 或者 <color>(0.667, 0.106, 0.416)</color> --> <!-- 0-1格式 -->
         </graphicData>
         <soundInteract>Interact_Rifle</soundInteract>
         <costStuffCount>75</costStuffCount>
@@ -76,6 +74,7 @@
                 <!-- 特效与音效 (如果使用原版音效，可以不写，代码中有默认值) -->
                 <hitEffectFadeoutTicks>10</hitEffectFadeoutTicks>                <!-- 护盾被击中后涟漪效果的持续时间 -->
                 <hitEffectDisplacement>0.06</hitEffectDisplacement>                <!-- 涟漪效果的位移幅度 -->
+                <shieldColor>(1.0, 0.3, 0.7)</shieldColor>
 
                 <!-- 自定义的音效和特效 -->
                 <!-- <soundAbsorb>EnergyShield_AbsorbDamage</soundAbsorb> -->                <!-- 吸收伤害的音效 -->
