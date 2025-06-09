@@ -9,6 +9,7 @@
       <texPath>Things/Weapons/The 42nd Psalm</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>1.5</drawSize>
+      <color>(255,192,203)</color><!-- 0-255格式 -->
     </graphicData>
     <!--equippedAngleOffset>40</equippedAngleOffset-->
     <soundInteract>Interact_Rifle</soundInteract>
@@ -30,8 +31,10 @@
       <AccuracyMedium>0.55</AccuracyMedium>
       <AccuracyLong>0.50</AccuracyLong>
       <RangedWeapon_Cooldown>1.1</RangedWeapon_Cooldown>
-      <EnergyShieldEnergyMax>1.5</EnergyShieldEnergyMax> <!-- 决定护盾容量 -->
-      <EnergyShieldRechargeRate>0.25</EnergyShieldRechargeRate> <!-- 决定充能速度 -->
+      <!-- 关键属性：定义护盾的最大能量和充能速度 -->
+      <!-- 这些依然通过statBases定义，因为它们可能受品质等因素影响 -->
+      <EnergyShieldEnergyMax>50</EnergyShieldEnergyMax>            <!-- 决定护盾容量 -->
+      <EnergyShieldRechargeRate>5</EnergyShieldRechargeRate>            <!-- 决定充能速度 -->
     </statBases>
     <costList>
       <Steel>90</Steel>
@@ -58,10 +61,25 @@
     <comps>
       <!-- 这个 li 的 Class 属性必须是 "命名空间.类名" -->
       <li Class="MoManaCha_Astral_Prayer.CompProperties_WeaponShield">
-        <minDrawSize>1.2</minDrawSize>
-        <maxDrawSize>1.8</maxDrawSize>
-        <energyLossPerDamage>1.2</energyLossPerDamage>
-        <ticksToReset>3200</ticksToReset>
+        <!-- 在这里配置所有新属性 -->
+
+        <!-- 视觉效果 -->
+        <minDrawSize>1.4</minDrawSize>
+        <maxDrawSize>1.6</maxDrawSize>
+
+        <!-- 核心数值 -->
+        <energyLossPerDamage>1.0</energyLossPerDamage>                <!-- 1点伤害消耗1点能量 -->
+        <ticksToReset>1800</ticksToReset>                <!-- 破碎后约30秒重置 -->
+        <energyOnReset>0.5</energyOnReset>                <!-- 重置后恢复50%能量 -->
+
+        <!-- 特效与音效 (如果使用原版音效，可以不写，代码中有默认值) -->
+        <hitEffectFadeoutTicks>10</hitEffectFadeoutTicks>                <!-- 护盾被击中后涟漪效果的持续时间 -->
+        <hitEffectDisplacement>0.06</hitEffectDisplacement>                <!-- 涟漪效果的位移幅度 -->
+
+        <!-- 自定义的音效和特效 -->
+        <!-- <soundAbsorb>EnergyShield_AbsorbDamage</soundAbsorb> -->                <!-- 吸收伤害的音效 -->
+        <soundReset>EnergyShield_Reset</soundReset>                <!-- 护盾重置的音效 -->
+        <!-- <effecterBreak>Shield_Break</effecterBreak> -->                <!-- 护盾破碎的特效 -->
       </li>
     </comps>
     <tools>
@@ -86,7 +104,7 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>9</damageAmountBase>
+      <damageAmountBase>8</damageAmountBase>
       <armorPenetrationBase>0.28</armorPenetrationBase>
       <speed>75</speed>
     </projectile>
