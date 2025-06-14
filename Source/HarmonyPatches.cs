@@ -1,6 +1,10 @@
 ﻿using HarmonyLib;
 using MoManaCha_Astral_Prayer;
 using RimWorld;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using UnityEngine;
 using Verse;
 
 namespace MoManaCha_Astral_Prayer // 确保与上面文件的命名空间一致
@@ -12,14 +16,13 @@ namespace MoManaCha_Astral_Prayer // 确保与上面文件的命名空间一致
         static HarmonyPatches()
         {
             // 创建一个Harmony实例，ID应该是全局唯一的
-            var harmony = new Harmony("com.yourname.weaponshield");
+            var harmony = new Harmony("MoManaCha.Pray");
 
             // 自动查找并应用本项目中所有的补丁
             harmony.PatchAll();
         }
     }
 
-    // 这是我们的核心补丁，目标是 Pawn.PreApplyDamage 方法
     [HarmonyPatch(typeof(Pawn), nameof(Pawn.PreApplyDamage))]
     public static class Pawn_PreApplyDamage_Patch
     {
@@ -64,7 +67,6 @@ namespace MoManaCha_Astral_Prayer // 确保与上面文件的命名空间一致
         }
     }
 
-    // 新增补丁，目标是 Pawn.Tick()
     [HarmonyPatch(typeof(Pawn), nameof(Pawn.Tick))]
     public static class Pawn_Tick_Patch
     {
@@ -87,7 +89,6 @@ namespace MoManaCha_Astral_Prayer // 确保与上面文件的命名空间一致
         }
     }
 
-    // 新增补丁，目标是 PawnRenderUtility.DrawEquipmentAndApparelExtras
     [HarmonyPatch(typeof(PawnRenderUtility), nameof(PawnRenderUtility.DrawEquipmentAndApparelExtras))]
     public static class PawnRenderUtility_DrawExtras_Patch
     {
@@ -114,4 +115,29 @@ namespace MoManaCha_Astral_Prayer // 确保与上面文件的命名空间一致
         }
     }
 
+    [HarmonyPatch(typeof(Pawn), nameof(Pawn.GetGizmos))]
+    public static class Pawn_GetGizmos_Patch
+    {
+        public static void Postfix(Pawn __instance, ref IEnumerable<Gizmo> __result)
+        {
+            if (__instance.equipment?.Primary == null)
+            {
+                return;
+            }
+
+            var comp = __instance.equipment.Primary.GetComp<CompMultiModeWeapon>();
+            if (comp != null)
+            {
+                // 1. 将原始结果转换为一个可修改的列表
+                List<Gizmo> gizmoList = __result.ToList();
+
+                // 2. 将我们自己的Gizmo添加到这个列表中
+                //    AddRage会添加一个IEnumerable<Gizmo>中的所有元素
+                gizmoList.AddRange(comp.GetEquippedGizmos());
+
+                // 3. 将__result指向我们这个新的、包含了所有Gizmo的列表
+                __result = gizmoList;
+            }
+        }
+    }
 }

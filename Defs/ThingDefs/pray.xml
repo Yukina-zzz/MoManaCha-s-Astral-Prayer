@@ -43,11 +43,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>Bullet_pray</defaultProjectile>
-        <warmupTime>1</warmupTime>
-        <range>30</range>
-        <burstShotCount>5</burstShotCount>
-        <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
+        <range>30</range> <!-- Fallback values -->
         <soundCast>CQBAR15</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
@@ -74,12 +70,67 @@
         <!-- 特效与音效 (如果使用原版音效，可以不写，代码中有默认值) -->
         <hitEffectFadeoutTicks>10</hitEffectFadeoutTicks>                <!-- 护盾被击中后涟漪效果的持续时间 -->
         <hitEffectDisplacement>0.06</hitEffectDisplacement>                <!-- 涟漪效果的位移幅度 -->
-		<shieldColor>(1.0,0.75,0.79)</shieldColor>
+        <shieldColor>(1.0,0.75,0.79)</shieldColor>
+
         <!-- 自定义的音效和特效 -->
         <!-- <soundAbsorb>EnergyShield_AbsorbDamage</soundAbsorb> -->                <!-- 吸收伤害的音效 -->
         <soundReset>EnergyShield_Reset</soundReset>                <!-- 护盾重置的音效 -->
         <!-- <effecterBreak>Shield_Break</effecterBreak> -->                <!-- 护盾破碎的特效 -->
       </li>
+      <li Class="MoManaCha_Astral_Prayer.CompProperties_MultiMode">
+        <uiIconPath>Things/Mote/FFW</uiIconPath>
+        <modes>
+          <!-- Mode 0: 星屑连射 -->
+          <li>
+            <label>星屑连射</label>
+            <description>快速发射多枚追踪魔法飞弹。</description>
+            <verbProps>
+              <verbClass>Verb_Shoot</verbClass>
+              <hasStandardCommand>true</hasStandardCommand>
+              <defaultProjectile>Bullet_pray_Normal</defaultProjectile>
+              <warmupTime>1</warmupTime>
+              <range>30</range>
+              <burstShotCount>5</burstShotCount>
+              <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
+              <soundCast>CQBAR15</soundCast>
+              <soundCastTail>GunTail_Medium</soundCastTail>
+              <muzzleFlashScale>9</muzzleFlashScale>
+            </verbProps>
+          </li>
+
+          <!-- Mode 1: 星穹碎裂 -->
+          <li>
+            <label>星穹碎裂</label>
+            <description>吟唱后发射一枚高伤害的爆炸星穹。</description>
+            <verbProps>
+              <verbClass>Verb_Shoot</verbClass>
+              <hasStandardCommand>true</hasStandardCommand>
+              <forcedMissRadius>1.0</forcedMissRadius>
+              <defaultProjectile>Bullet_pray_Skyfall</defaultProjectile>
+              <warmupTime>2.5</warmupTime>
+              <range>40</range>
+              <burstShotCount>1</burstShotCount>
+              <soundCast>Mortar_LaunchA</soundCast>
+              <targetParams>
+                <!-- 可以瞄地板射击 -->
+                <canTargetLocations>true</canTargetLocations>
+              </targetParams>
+              <muzzleFlashScale>0</muzzleFlashScale>
+            </verbProps>
+          </li>
+
+          <!--
+          <li Class="MoManaCha_Astral_Prayer.ModeDef">
+            <label>新形态</label>
+            <description>这是第三种形态。</description>
+            <verbProps>
+              ...
+            </verbProps>
+          </li>
+          -->
+        </modes>
+      </li>
+
     </comps>
     <tools>
       <li>
@@ -94,11 +145,12 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>Bullet_pray</defName>
+    <defName>Bullet_pray_Normal</defName>
     <label>魔法飞弹</label>
     <graphicData>
       <texPath>Things/Mote/star_c</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
       <drawSize>0.5</drawSize>
     </graphicData>
     <projectile>
@@ -107,5 +159,53 @@
       <armorPenetrationBase>0.28</armorPenetrationBase>
       <speed>75</speed>
     </projectile>
+  </ThingDef>
+  <!-- 模式二的子弹 -->
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_pray_Skyfall</defName>
+    <label>星落</label>
+    <graphicData>
+      <texPath>Things/Mote/star_b</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>1.5</drawSize>
+    </graphicData>
+    <thingClass>MoManaCha_Astral_Prayer.Projectile_SkyfallExplosiveEnhanced</thingClass>
+    <projectile>
+      <flyOverhead>true</flyOverhead>
+      <damageDef>Bomb</damageDef>
+      <explosionRadius>3.9</explosionRadius>
+      <damageAmountBase>50</damageAmountBase>
+      <speed>50</speed>
+      <soundExplode>Explosion_Bomb</soundExplode>
+    </projectile>
+    <modExtensions>
+      <li Class="MoManaCha_Astral_Prayer.SkyfallProjectileProperties">
+        <!-- Projectile_SkyfallExplosive 属性 -->
+        <StartPosOffsetZ>20</StartPosOffsetZ>
+        <StartPosOffsetX>5</StartPosOffsetX>
+        <StartPosOffsetY>10</StartPosOffsetY>
+        <rotationSpeed>12</rotationSpeed>
+        <trailFleckInterval>5</trailFleckInterval>
+        <trailLineScale>0.5</trailLineScale>
+        <trailSmokeScale>0.3</trailSmokeScale>
+        <stardustFleckInterval>8</stardustFleckInterval>
+        <stardustSpreadRadius>0.8</stardustSpreadRadius>
+        <stardustVerticalSpread>0.3</stardustVerticalSpread>
+        <stardustScale>1.2</stardustScale>
+        <!-- <stardustColor>(1, 1, 0)</stardustColor> -->
+
+        <!-- Projectile_SkyfallExplosiveEnhanced 属性 -->
+        <targetingCircleFlashScale>3.0</targetingCircleFlashScale>
+        <targetingCircleFleckCount>20</targetingCircleFleckCount>
+        <targetingCircleRadiusFactor>0.9</targetingCircleRadiusFactor>
+        <targetingCircleSmokeScale>1.5</targetingCircleSmokeScale>
+        <finalImpactFlashScale>5.0</finalImpactFlashScale>
+        <finalImpactFleckCount>30</finalImpactFleckCount>
+        <finalImpactDustDistanceRange>(1.0, 3.5)</finalImpactDustDistanceRange> 
+        <finalImpactDustScale>1.8</finalImpactDustScale>
+        <finalImpactDustColor>(1, 0.8, 0.5)</finalImpactDustColor> 
+      </li>
+    </modExtensions>
   </ThingDef>
 </Defs>

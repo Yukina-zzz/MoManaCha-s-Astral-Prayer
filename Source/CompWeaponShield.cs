@@ -13,51 +13,6 @@ namespace MoManaCha_Astral_Prayer // 您可以替换成自己的Mod命名空间
         Disabled   // 武器不在人手上，或没有电力等
     }
 
-    // 这个类用于在XML中配置护盾的属性
-    public class CompProperties_WeaponShield : CompProperties
-    {
-        // --- 视觉效果 ---
-        public float minDrawSize = 1.2f;            // 护盾视觉效果最小尺寸
-        public float maxDrawSize = 1.8f;            // 护盾视觉效果最大尺寸
-
-        // --- 核心数值 ---
-        public float energyLossPerDamage = 1.0f;    // 每点伤害消耗的能量 (可以大于1，表示护盾较脆弱)
-        public int ticksToReset = 3200;             // 护盾破碎后重置所需的时间 (游戏刻) (标准护盾腰带是3200)
-        public float energyOnReset = 0.2f;          // 重置后恢复的能量百分比 (例如0.2代表20%)
-
-        // --- 特效与音效 ---
-        public int hitEffectFadeoutTicks = 8;        // 护盾被击中后涟漪效果的持续时间
-        public float hitEffectDisplacement = 0.05f;   // 涟漪效果的位移幅度
-        public SoundDef soundAbsorb = null; // 吸收伤害的音效
-        public SoundDef soundReset = null;         // 护盾重置的音效
-        public EffecterDef effecterBreak = null;      // 护盾破碎的特效
-        public Color shieldColor = new Color(0.5f, 0.8f, 0.9f);       //护盾颜色
-
-        public CompProperties_WeaponShield()
-        {
-            compClass = typeof(CompWeaponShield);
-        }
-
-        public override void ResolveReferences(ThingDef parentDef)
-        {
-            base.ResolveReferences(parentDef);
-
-            // 检查每个字段，如果XML没有给它赋值（即它还是null），
-            // 就在这里赋上我们的默认值。
-            if (this.soundAbsorb == null)
-            {
-                this.soundAbsorb = SoundDefOf.EnergyShield_AbsorbDamage;
-            }
-            if (this.soundReset == null)
-            {
-                this.soundReset = SoundDefOf.EnergyShield_Reset;
-            }
-            if (this.effecterBreak == null)
-            {
-                this.effecterBreak = EffecterDefOf.Shield_Break;
-            }
-        }
-    }
 
     [StaticConstructorOnStartup]
     public class CompWeaponShield : ThingComp
@@ -129,8 +84,8 @@ namespace MoManaCha_Astral_Prayer // 您可以替换成自己的Mod命名空间
                 return;
             }
 
-            // 如果你只想防御远程攻击，可以在这里添加判断
-             if (!dinfo.Def.isRanged) { return; }
+            // 只防御远程攻击
+            if (!dinfo.Def.isRanged) { return; }
 
             energy -= dinfo.Amount * Props.energyLossPerDamage;
 
@@ -185,6 +140,11 @@ namespace MoManaCha_Astral_Prayer // 您可以替换成自己的Mod命名空间
 
         private void AbsorbedDamage(DamageInfo dinfo)
         {
+            if (PawnOwner == null || !PawnOwner.Spawned || PawnOwner.Map == null)
+            {
+                // 如果Pawn无效，或未在地图上生成，则不执行任何视觉/听觉效果，直接返回。
+                return;
+            }
             Props.soundAbsorb?.PlayOneShot(new TargetInfo(PawnOwner.Position, PawnOwner.Map));
             impactAngleVect = Vector3Utility.HorizontalVectorFromAngle(dinfo.Angle);
             Vector3 loc = PawnOwner.TrueCenter() + impactAngleVect.RotatedBy(180f) * 0.5f;

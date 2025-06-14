@@ -67,8 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AstralPrayer.cs" />
+    <Compile Include="CompMultiModeWeapon.cs" />
+    <Compile Include="CompProperties.cs" />
     <Compile Include="CompWeaponShield.cs" />
     <Compile Include="HarmonyPatches.cs" />
+    <Compile Include="Projectile_Skyfall.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
