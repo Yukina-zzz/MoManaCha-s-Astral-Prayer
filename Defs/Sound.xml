@@ -2,7 +2,7 @@
 <Defs>
 
 	<SoundDef>
-        <defName>CQBAR15</defName>
+        <defName>MagicStarP</defName>
         <context>MapOnly</context>
         <eventNames />
         <maxSimultaneous>1</maxSimultaneous>
@@ -10,7 +10,7 @@
             <li>
                 <grains>
                     <li Class="AudioGrain_Clip">
-                        <clipPath>CQBAR15</clipPath>
+                        <clipPath>MagicStarP</clipPath>
                     </li>
                 </grains>
                 <volumeRange>40~45</volumeRange>
@@ -19,9 +19,9 @@
             </li>
         </subSounds>
     </SoundDef>
-	
+
 	<SoundDef>
-        <defName>CQBAR15SD</defName>
+        <defName>MagicStarLanding</defName>
         <context>MapOnly</context>
         <eventNames />
         <maxSimultaneous>1</maxSimultaneous>
@@ -29,7 +29,7 @@
             <li>
                 <grains>
                     <li Class="AudioGrain_Clip">
-                        <clipPath>CQBAR15SD</clipPath>
+                        <clipPath>MagicStarLanding</clipPath>
                     </li>
                 </grains>
                 <volumeRange>40~45</volumeRange>
