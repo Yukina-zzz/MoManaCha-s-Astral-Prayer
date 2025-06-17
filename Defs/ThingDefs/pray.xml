@@ -32,8 +32,8 @@
       <RangedWeapon_Cooldown>1.1</RangedWeapon_Cooldown>
       <!-- 关键属性：定义护盾的最大能量和充能速度 -->
       <!-- 这些依然通过statBases定义，因为它们可能受品质等因素影响 -->
-      <EnergyShieldEnergyMax>50</EnergyShieldEnergyMax>            <!-- 决定护盾容量 -->
-      <EnergyShieldRechargeRate>5</EnergyShieldRechargeRate>            <!-- 决定充能速度 -->
+      <EnergyShieldEnergyMax>150</EnergyShieldEnergyMax>            <!-- 决定护盾容量 -->
+      <EnergyShieldRechargeRate>15</EnergyShieldRechargeRate>            <!-- 决定充能速度 -->
     </statBases>
     <costList>
       <Steel>90</Steel>
@@ -93,7 +93,7 @@
               <range>30</range>
               <burstShotCount>5</burstShotCount>
               <ticksBetweenBurstShots>3</ticksBetweenBurstShots>
-              <soundCast>CQBAR15</soundCast>
+              <soundCast>MagicStarP</soundCast>
               <soundCastTail>GunTail_Medium</soundCastTail>
               <muzzleFlashScale>9</muzzleFlashScale>
             </verbProps>
@@ -109,9 +109,9 @@
               <forcedMissRadius>1.0</forcedMissRadius>
               <defaultProjectile>Bullet_pray_Skyfall</defaultProjectile>
               <warmupTime>2.5</warmupTime>
-              <range>40</range>
+              <range>50</range>
               <burstShotCount>1</burstShotCount>
-              <soundCast>Mortar_LaunchA</soundCast>
+              <soundCast>MagicStarLanding</soundCast>
               <targetParams>
                 <!-- 可以瞄地板射击 -->
                 <canTargetLocations>true</canTargetLocations>
