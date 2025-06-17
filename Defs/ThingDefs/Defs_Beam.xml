@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <AbilityDef>
+        <defName>MoManaCha_Ability_AstralBeam</defName>
+        <label>星穹光炮</label>
+        <description>引导一道持续的毁灭光束，摧毁路径上的一切。光束会被障碍物阻挡，但在摧毁障碍物后会继续前进。</description>
+        <iconPath>Things/Mote/Light_Wing_R</iconPath> <!-- 技能图标路径 -->
+        <cooldownTicksRange>1500</cooldownTicksRange> <!-- 25秒冷却 (25 * 60) -->
+        <verbProperties>
+            <verbClass>Verb_CastAbility</verbClass>
+            <hasStandardCommand>true</hasStandardCommand>
+            <warmupTime>2.0</warmupTime> <!-- 2秒施法前摇 -->
+            <range>45</range>
+            <noiseRadius>15</noiseRadius>
+            <soundCast>ChargeLance_Fire</soundCast>
+            <requireLineOfSight>false</requireLineOfSight>
+            <muzzleFlashScale>0</muzzleFlashScale>
+            <targetParams>
+                <canTargetLocations>true</canTargetLocations>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class="MoManaCha_Astral_Prayer.CompProperties_AbilityAstralBeam" />
+        </comps>
+    </AbilityDef>
+
+    <DamageDef>
+        <defName>MoManaCha_AstralBeam</defName>
+        <label>星穹能量</label>
+        <workerClass>DamageWorker_AddInjury</workerClass>
+        <externalViolence>true</externalViolence>
+        <deathMessage>{0}被星穹光束湮灭了。</deathMessage>
+        <hediff>Shredded</hediff>
+        <hediffSolid>Crack</hediffSolid>
+        <impactSoundType>Bullet</impactSoundType>
+        <armorCategory>Heat</armorCategory>
+        <buildingDamageFactor>2</buildingDamageFactor>
+        <plantDamageFactor>2</plantDamageFactor>
+        <explosionHeatEnergyPerCell>0</explosionHeatEnergyPerCell>
+        <explosionCellMote>Mote_GiantExplosion</explosionCellMote>
+        <explosionColorEdge>(1.0, 0.75, 0.79, 0.8)</explosionColorEdge>
+    </DamageDef>
+
+    <!-- 光炮的逻辑控制器 -->
+    <ThingDef>
+        <defName>MoManaCha_BeamController</defName>
+        <thingClass>MoManaCha_Astral_Prayer.Thing_BeamController</thingClass>
+        <label>光炮控制器</label>
+        <category>Ethereal</category>
+        <useHitPoints>false</useHitPoints>
+        <tickerType>Normal</tickerType>
+        <drawerType>None</drawerType> <!-- 不可见 -->
+        <drawOffscreen>true</drawOffscreen>
+        <destroyOnDrop>true</destroyOnDrop>
+        <tradeability>None</tradeability>
+    </ThingDef>
+
+    <!-- 光炮的视觉效果 (Mote) -->
+    <ThingDef ParentName="MoteBase">
+        <defName>MoManaCha_Mote_Beam</defName>
+        <thingClass>MoManaCha_Astral_Prayer.Mote_Beam</thingClass>
+        <label>光炮视觉</label>
+        <graphicData>
+            <texPath>Things/Mote/Beam</texPath> 
+            <shaderType>MoteGlow</shaderType>
+            <drawSize>1.0</drawSize>
+        </graphicData>
+        <altitudeLayer>MoteOverhead</altitudeLayer>
+        <mote>
+            <solidTime>9999</solidTime> <!-- 由控制器管理生命周期 -->
+            <fadeOutTime>0.1</fadeOutTime>
+        </mote>
+    </ThingDef>
+</Defs>

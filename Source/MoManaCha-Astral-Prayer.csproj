@@ -67,12 +67,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AstralPrayer.cs" />
+    <Compile Include="CompAbilityEffect_AstralBeam.cs" />
     <Compile Include="CompMultiModeWeapon.cs" />
     <Compile Include="CompProperties.cs" />
     <Compile Include="CompWeaponShield.cs" />
+    <Compile Include="DamageWorker_AstralBeam.cs" />
     <Compile Include="HarmonyPatches.cs" />
+    <Compile Include="Mote_Beam.cs" />
     <Compile Include="Projectile_Skyfall.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Thing_BeamController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\..\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll" />

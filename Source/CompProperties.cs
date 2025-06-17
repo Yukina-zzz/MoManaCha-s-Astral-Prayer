@@ -128,4 +128,13 @@ namespace MoManaCha_Astral_Prayer
         public Color finalImpactDustColor = Color.white;
 
     }
+
+    // 光炮的属性
+    public class CompProperties_AbilityAstralBeam : CompProperties_AbilityEffect
+    {
+        public CompProperties_AbilityAstralBeam()
+        {
+            this.compClass = typeof(CompAbilityEffect_AstralBeam);
+        }
+    }
 }
