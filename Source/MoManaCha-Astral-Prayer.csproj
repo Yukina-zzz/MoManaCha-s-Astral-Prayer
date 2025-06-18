@@ -71,7 +71,6 @@
     <Compile Include="CompMultiModeWeapon.cs" />
     <Compile Include="CompProperties.cs" />
     <Compile Include="CompWeaponShield.cs" />
-    <Compile Include="DamageWorker_AstralBeam.cs" />
     <Compile Include="HarmonyPatches.cs" />
     <Compile Include="Mote_Beam.cs" />
     <Compile Include="Projectile_Skyfall.cs" />

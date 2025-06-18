@@ -8,7 +8,7 @@ namespace MoManaCha_Astral_Prayer
 {
     public class Thing_BeamController : Thing
     {
-        // --- 参数 ---
+        // --- 参数和计时器 ---
         private Pawn caster;
         private LocalTargetInfo target;
         private Thing weapon;
@@ -16,19 +16,18 @@ namespace MoManaCha_Astral_Prayer
         private float beamWidth;
         private int damageAmount;
         private float armorPenetration;
-
-        // --- 计时器 ---
         private int totalDurationTicks;
         private int pulseIntervalTicks;
         private int ticksCounter;
         private int ticksUntilNextPulse;
 
         // --- 路径和视觉 ---
-        private List<IntVec3> fullBeamPathCells;
+        private List<IntVec3> geometricPath; // 几何中心线路径
+        private List<IntVec3> effectiveCells; // 实际伤害格子
+        private Vector3 visualEndPointVec; // 视觉终点
         private Mote_Beam beamMote;
 
-        // 初始化方法，由Verb调用
-        public void Initialize(Pawn caster, LocalTargetInfo target, Thing weapon, DamageDef damageDef, int beamWidth, int damageAmount, float armorPenetration, float duration, float pulseInterval)
+       public void Initialize(Pawn caster, LocalTargetInfo target, Thing weapon, DamageDef damageDef, int beamWidth, int damageAmount, float armorPenetration, float duration, float pulseInterval)
         {
             this.caster = caster;
             this.target = target;
@@ -40,32 +39,28 @@ namespace MoManaCha_Astral_Prayer
 
             this.totalDurationTicks = Mathf.RoundToInt(duration * 60f);
             this.pulseIntervalTicks = Mathf.RoundToInt(pulseInterval * 60f);
-            this.ticksUntilNextPulse = 0; // 立即触发第一次
+            this.ticksUntilNextPulse = 0;
+            this.effectiveCells = new List<IntVec3>();
 
-            // 在初始化时就计算好整个光束的几何路径
-            this.fullBeamPathCells = CalculateBeamCells(caster.Position, target.Cell, beamWidth);
+            this.geometricPath = CalculateGeometricPath(caster.Position, target.Cell);
+            
+            CalculateEffectiveRange(); 
+
             if (this.Map != null)
             {
                 beamMote = (Mote_Beam)ThingMaker.MakeThing(ThingDef.Named("MoManaCha_Mote_Beam"));
-                beamMote.Initialize(caster.DrawPos, target.CenterVector3, beamWidth);
-                GenSpawn.Spawn(beamMote, this.Position, this.Map);
+                beamMote.Initialize(caster.DrawPos, this.visualEndPointVec, beamWidth);
+                GenSpawn.Spawn(beamMote, caster.Position, this.Map);
             }
-        }
-
-        public override void SpawnSetup(Map map, bool respawningAfterLoad)
-        {
-            base.SpawnSetup(map, respawningAfterLoad);
         }
 
         public override void Tick()
         {
-            if (caster == null || caster.Dead || !caster.Spawned || caster.Map != this.Map)
+            if (caster == null || caster.Dead || !caster.Spawned || caster.Map != this.Map || (beamMote != null && beamMote.Destroyed))
             {
                 this.Destroy();
                 return;
             }
-
-            // 总时长控制
             if (ticksCounter >= totalDurationTicks)
             {
                 this.Destroy();
@@ -74,13 +69,32 @@ namespace MoManaCha_Astral_Prayer
 
             if (beamMote != null)
             {
-                beamMote.UpdateBeam(caster.DrawPos, target.CenterVector3);
+                beamMote.UpdateBeam(caster.DrawPos, visualEndPointVec);
             }
 
-            // 脉冲间隔控制
             if (ticksUntilNextPulse <= 0)
             {
-                DoBeamPulse();
+                CalculateEffectiveRange();
+
+                // 去除重复的格子，小幅优化性能
+                var uniqueCells = new HashSet<IntVec3>(effectiveCells).ToList();
+
+                GenExplosion.DoExplosion(
+                    center: caster.Position,
+                    map: this.Map,
+                    radius: 0f,
+                    damType: this.damageDef,
+                    instigator: caster,
+                    damAmount: this.damageAmount,
+                    armorPenetration: this.armorPenetration,
+                    weapon: this.weapon.def,
+                    ignoredThings: new List<Thing> { caster },
+                    overrideCells: uniqueCells,
+                    damageFalloff: false,
+                    doVisualEffects: false,
+                    doSoundEffects: false
+                );
+
                 ticksUntilNextPulse = pulseIntervalTicks;
             }
 
@@ -88,71 +102,81 @@ namespace MoManaCha_Astral_Prayer
             ticksUntilNextPulse--;
         }
 
-        // 执行一次伤害脉冲
-        private void DoBeamPulse()
+        // 计算并更新实际伤害范围和视觉终点
+        private void CalculateEffectiveRange()
         {
-            if (fullBeamPathCells == null || fullBeamPathCells.Count == 0) return;
+            effectiveCells.Clear();
 
-            GenExplosion.DoExplosion(
-                center: this.caster.Position, // 爆炸中心永远是施法者
-                map: this.Map,
-                radius: 1f, // 不重要
-                damType: this.damageDef,
-                instigator: this.caster,
-                damAmount: this.damageAmount,
-                armorPenetration: this.armorPenetration,
-                explosionSound: null, // 在Verb里已经播放了
-                weapon: this.weapon.def,
-                projectile: null,
-                intendedTarget: this.target.Thing,
-                postExplosionSpawnThingDef: null,
-                postExplosionSpawnChance: 0,
-                postExplosionSpawnThingCount: 1,
-                applyDamageToExplosionCellsNeighbors: false,
-                preExplosionSpawnThingDef: null,
-                preExplosionSpawnChance: 0,
-                preExplosionSpawnThingCount: 1,
-                chanceToStartFire: 0.1f,
-                damageFalloff: false, // 关闭伤害衰减
-                ignoredThings: new List<Thing> { this.caster },
-                overrideCells: this.fullBeamPathCells, // 使用我们计算的路径
-                doVisualEffects: false, // 关闭默认爆炸特效
-                doSoundEffects: false // 关闭默认爆炸音效
-            );
-        }
+            Vector3 startVec = caster.Position.ToVector3Shifted();
+            Vector3 targetVec = target.CenterVector3;
+            Vector3 direction = (targetVec - startVec).normalized;
 
-        // 计算光束覆盖的所有格子
-        private List<IntVec3> CalculateBeamCells(IntVec3 start, IntVec3 end, float width)
-        {
-            var cells = new HashSet<IntVec3>();
-            var linePoints = GenSight.PointsOnLineOfSight(start, end).ToList();
-            if (linePoints.Count > 0) linePoints.RemoveAt(0); // 移除第一个点（施法者位置）
-            Vector3 direction = (end - start).ToVector3().normalized;
-            // 计算垂直向量
-            Vector3 perpendicular = new Vector3(-direction.z, 0, direction.x);
+            // 默认视觉终点就是起点，如果路径为空，这就是最终结果
+            visualEndPointVec = startVec;
 
-            float halfWidth = (width - 1) / 2f;
+            IntVec3 lastEffectiveCenterPoint = caster.Position;
 
-            foreach (var point in linePoints)
+            foreach (IntVec3 centerPoint in geometricPath)
             {
-                foreach (var cell in GenRadial.RadialCellsAround(point, width / 2f, true))
+                if (centerPoint == caster.Position) continue;
+
+                Building edifice = centerPoint.GetEdifice(this.Map);
+                if (edifice != null && edifice.def.Fillage == FillCategory.Full)
                 {
-                    cells.Add(cell);
+                    // --- 发现墙体 ---
+                    // 将墙体切片中可见的部分加入伤害列表
+                    List<IntVec3> finalSlice = new List<IntVec3>();
+                    float sliceRadius = (beamWidth - 1) / 2f;
+                    foreach (var cell in CalculateSliceCells(centerPoint, sliceRadius))
+                    {
+                        if (GenSight.LineOfSight(caster.Position, cell, this.Map, skipFirstCell: true))
+                        {
+                            finalSlice.Add(cell);
+                        }
+                    }
+                    effectiveCells.AddRange(finalSlice);
+
+                    // 记录最后一个有效中心点就是这个墙体所在点
+                    lastEffectiveCenterPoint = centerPoint;
+                    break; // 找到墙就中断循环
                 }
-                for (float i = 1; i <= halfWidth; i += 0.5f)
+                else
                 {
-                    // 使用Vector3进行计算
-                    Vector3 p1_3d = point.ToVector3() + perpendicular * i;
-                    Vector3 p2_3d = point.ToVector3() - perpendicular * i;
-                    cells.Add(p1_3d.ToIntVec3());
-                    cells.Add(p2_3d.ToIntVec3());
+                    // --- 路径通畅 ---
+                    float sliceRadius = (beamWidth - 1) / 2f;
+                    effectiveCells.AddRange(CalculateSliceCells(centerPoint, sliceRadius));
+                    // 持续更新最后一个有效中心点
+                    lastEffectiveCenterPoint = centerPoint;
                 }
             }
 
-            return new List<IntVec3>(cells);
+            // --- 统一计算最终的视觉终点 ---
+            if (lastEffectiveCenterPoint != caster.Position)
+            {
+                // 计算从起点到最后一个有效中心点格子的距离
+                float distanceToEndPoint = Vector3.Distance(startVec, lastEffectiveCenterPoint.ToVector3Shifted());
+
+                // 将这个距离减去0.5（半个格子的标准距离），让视觉光束的末端停在最后一个格子的近侧边缘
+                float visualLength = Mathf.Max(0, distanceToEndPoint - 0.5f);
+
+                // 根据计算出的视觉长度，确定最终的视觉终点浮点坐标
+                visualEndPointVec = startVec + direction * visualLength;
+            }
         }
 
-        // 存档和读档
+        // 只计算中心线几何路径
+        private List<IntVec3> CalculateGeometricPath(IntVec3 start, IntVec3 end)
+        {
+            return GenSight.PointsOnLineOfSight(start, end).ToList();
+        }
+
+        private List<IntVec3> CalculateSliceCells(IntVec3 center, float radius)
+        {
+            return GenRadial.RadialCellsAround(center, radius, true).ToList();
+        }
+
+
+        // ExposeData 和 Destroy 方法保持不变
         public override void ExposeData()
         {
             base.ExposeData();
@@ -167,11 +191,11 @@ namespace MoManaCha_Astral_Prayer
             Scribe_Values.Look(ref pulseIntervalTicks, "pulseIntervalTicks");
             Scribe_Values.Look(ref ticksCounter, "ticksCounter");
             Scribe_Values.Look(ref ticksUntilNextPulse, "ticksUntilNextPulse");
-            Scribe_Collections.Look(ref fullBeamPathCells, "fullBeamPathCells", LookMode.Value);
+            Scribe_Collections.Look(ref geometricPath, "geometricPath", LookMode.Value);
             Scribe_References.Look(ref beamMote, "beamMote");
+            Scribe_Values.Look(ref visualEndPointVec, "visualEndPointVec");
         }
 
-        // 销毁时清理视觉效果
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
             if (beamMote != null && !beamMote.Destroyed)
