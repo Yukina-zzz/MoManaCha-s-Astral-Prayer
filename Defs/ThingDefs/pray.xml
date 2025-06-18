@@ -44,7 +44,7 @@
         <verbClass>Verb_Shoot</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <range>30</range> <!-- Fallback values -->
-        <soundCast>CQBAR15</soundCast>
+        <soundCast>MagicStarP</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
       </li>
