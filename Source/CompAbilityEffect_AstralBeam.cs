@@ -45,7 +45,7 @@ namespace MoManaCha_Astral_Prayer
                 target: beamTarget,
                 weapon: caster.equipment.Primary, // 从装备中获取武器
                 damageDef: DefDatabase<DamageDef>.GetNamed("MoManaCha_AstralBeam"),
-                beamWidth: 3,
+                totalBeamWidth: 3, // <--- 这里是修改的地方！
                 damageAmount: 30,
                 armorPenetration: 0.5f,
                 duration: 5f,

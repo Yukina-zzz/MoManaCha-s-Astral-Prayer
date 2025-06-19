@@ -61,7 +61,7 @@
         <thingClass>MoManaCha_Astral_Prayer.Mote_Beam</thingClass>
         <label>光炮视觉</label>
         <graphicData>
-            <texPath>Things/Mote/Beam</texPath> 
+            <texPath>Things/Mote/Beam</texPath>
             <shaderType>MoteGlow</shaderType>
             <drawSize>1.0</drawSize>
         </graphicData>
