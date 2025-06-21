@@ -132,9 +132,25 @@ namespace MoManaCha_Astral_Prayer
     // 光炮的属性
     public class CompProperties_AbilityAstralBeam : CompProperties_AbilityEffect
     {
+        // --- 核心数值 ---
+        // 我们为所有数值提供默认值
+        public int damageAmount = 20;
+        public float armorPenetration = 0.5f;
+        public int beamWidth = 3;
+
+        // --- 时间控制 ---
+        public float duration = 5.0f;           // 引导总时长 (秒)
+        public float pulseInterval = 0.2f;      // 每跳伤害间隔 (秒)
+
+        // --- 伤害类型 ---
+        // 我们将在XML中直接链接这个字段
+        public DamageDef damageDef;
+
         public CompProperties_AbilityAstralBeam()
         {
+            // 将这个CompProperties与我们的CompAbilityEffect_AstralBeam效果类关联起来
             this.compClass = typeof(CompAbilityEffect_AstralBeam);
         }
+
     }
 }

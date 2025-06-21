@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <JobDef>
+    <defName>MoManaCha_Job_ChannelAstralBeam</defName>
+    <driverClass>MoManaCha_Astral_Prayer.JobDriver_ChannelAstralBeam</driverClass>
+    <reportString>正在引导星穹光炮。</reportString>
+    <casualInterruptible>false</casualInterruptible> <!-- 不可被随意打断 -->
+  </JobDef>
+</Defs>

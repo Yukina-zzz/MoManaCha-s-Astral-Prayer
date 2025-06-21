@@ -254,6 +254,7 @@ namespace MoManaCha_Astral_Prayer
                     visualEndPoint = startVec + direction * visualLength;
                 }
             }
+
         }
 
         private List<IntVec3> CalculateGeometricPath(IntVec3 start, IntVec3 end)
@@ -308,5 +309,15 @@ namespace MoManaCha_Astral_Prayer
             }
             base.Destroy(mode);
         }
+
+        public void Stop()
+        {
+            // 调用Destroy方法，它会处理Mote的销毁等清理工作
+            if (!this.Destroyed)
+            {
+                this.Destroy();
+            }
+        }
+
     }
 }

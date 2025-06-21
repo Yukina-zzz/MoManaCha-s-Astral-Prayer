@@ -20,7 +20,17 @@
             </targetParams>
         </verbProperties>
         <comps>
-            <li Class="MoManaCha_Astral_Prayer.CompProperties_AbilityAstralBeam" />
+            <li Class="MoManaCha_Astral_Prayer.CompProperties_AbilityAstralBeam">
+                <!-- 链接到已经定义好的DamageDef -->
+                <damageDef>MoManaCha_AstralBeam</damageDef>
+
+                <!-- 在这里配置所有其他数值 -->
+                <damageAmount>25</damageAmount>
+                <armorPenetration>0.75</armorPenetration>
+                <beamWidth>3</beamWidth>
+                <duration>5.0</duration>
+                <pulseInterval>0.2</pulseInterval>
+            </li>
         </comps>
     </AbilityDef>
 
