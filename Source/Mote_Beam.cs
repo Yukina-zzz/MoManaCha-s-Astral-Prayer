@@ -16,7 +16,7 @@ namespace MoManaCha_Astral_Prayer
             this.linearScale = new Vector3(width, 1f, (end - start).magnitude);
             UpdatePositionAndRotation();
         }
-        
+
         // 我们需要在每一帧都更新，以防施法者或目标移动
         public void UpdateBeam(Vector3 newStart, Vector3 newEnd)
         {
@@ -31,7 +31,7 @@ namespace MoManaCha_Astral_Prayer
             // Mote的位置是光束的几何中心
             this.exactPosition = (start + end) / 2f;
             this.exactPosition.y = base.def.altitudeLayer.AltitudeFor();
-            
+
             // Mote的旋转是光束的方向
             this.exactRotation = (end - start).AngleFlat();
         }

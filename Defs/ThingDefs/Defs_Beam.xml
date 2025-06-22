@@ -30,6 +30,8 @@
                 <beamWidth>3</beamWidth>
                 <duration>5.0</duration>
                 <pulseInterval>0.2</pulseInterval>
+                <!-- 过载爆炸的最小安全距离 -->
+                <minSafeDistance>2.0</minSafeDistance>
             </li>
         </comps>
     </AbilityDef>
@@ -47,7 +49,7 @@
         <buildingDamageFactor>2</buildingDamageFactor>
         <plantDamageFactor>2</plantDamageFactor>
         <explosionHeatEnergyPerCell>0</explosionHeatEnergyPerCell>
-        <explosionCellMote>Mote_GiantExplosion</explosionCellMote>
+        <!-- <explosionCellMote>Mote_GiantExplosion</explosionCellMote> -->
         <explosionColorEdge>(1.0, 0.75, 0.79, 0.8)</explosionColorEdge>
     </DamageDef>
 
@@ -66,18 +68,53 @@
     </ThingDef>
 
     <!-- 光炮的视觉效果 (Mote) -->
+    <!-- 光束头部 Mote -->
     <ThingDef ParentName="MoteBase">
-        <defName>MoManaCha_Mote_Beam</defName>
-        <thingClass>MoManaCha_Astral_Prayer.Mote_Beam</thingClass>
-        <label>光炮视觉</label>
+        <defName>Mote_AstralBeam_Head</defName>
+        <thingClass>MoManaCha_Astral_Prayer.Mote_Beam</thingClass> <!-- 复用同一个Mote类 -->
+        <label>光炮头部</label>
         <graphicData>
-            <texPath>Things/Mote/Beam</texPath>
+            <texPath>Things/Mote/BeamHead</texPath> <!-- 指向头部贴图 -->
+            <shaderType>MoteGlow</shaderType>
+            <drawSize>1.0</drawSize> <!-- drawSize会由代码动态控制 -->
+        </graphicData>
+        <altitudeLayer>MoteOverhead</altitudeLayer>
+        <mote>
+            <solidTime>9999</solidTime>
+            <fadeOutTime>0.1</fadeOutTime>
+        </mote>
+    </ThingDef>
+
+    <!-- 光束中段 Mote -->
+    <ThingDef ParentName="MoteBase">
+        <defName>Mote_AstralBeam_Middle</defName>
+        <thingClass>MoManaCha_Astral_Prayer.Mote_Beam</thingClass> <!-- 复用同一个Mote类 -->
+        <label>光炮中段</label>
+        <graphicData>
+            <texPath>Things/Mote/BeamMiddle</texPath> <!-- 指向中段贴图 (对应您之前的Beam.png) -->
             <shaderType>MoteGlow</shaderType>
             <drawSize>1.0</drawSize>
         </graphicData>
         <altitudeLayer>MoteOverhead</altitudeLayer>
         <mote>
-            <solidTime>9999</solidTime> <!-- 由控制器管理生命周期 -->
+            <solidTime>9999</solidTime>
+            <fadeOutTime>0.1</fadeOutTime>
+        </mote>
+    </ThingDef>
+
+    <!-- 光束尾部 Mote -->
+    <ThingDef ParentName="MoteBase">
+        <defName>Mote_AstralBeam_Tail</defName>
+        <thingClass>MoManaCha_Astral_Prayer.Mote_Beam</thingClass> <!-- 复用同一个Mote类 -->
+        <label>光炮尾部</label>
+        <graphicData>
+            <texPath>Things/Mote/BeamTail</texPath> <!-- 指向尾部贴图 -->
+            <shaderType>MoteGlow</shaderType>
+            <drawSize>1.0</drawSize>
+        </graphicData>
+        <altitudeLayer>MoteOverhead</altitudeLayer>
+        <mote>
+            <solidTime>9999</solidTime>
             <fadeOutTime>0.1</fadeOutTime>
         </mote>
     </ThingDef>

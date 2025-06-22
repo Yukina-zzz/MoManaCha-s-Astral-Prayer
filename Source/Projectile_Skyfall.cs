@@ -63,7 +63,7 @@ namespace MoManaCha_Astral_Prayer
             // 计算天空中的起始位置
             Vector3 targetPos = intendedTarget.Cell.ToVector3Shifted();
             float randomOffsetX = Rand.Range(-Props.StartPosOffsetX, Props.StartPosOffsetX);
-            skyStartPos = new Vector3(targetPos.x+ randomOffsetX, Props.StartPosOffsetY, targetPos.z+ Props.StartPosOffsetZ);
+            skyStartPos = new Vector3(targetPos.x + randomOffsetX, Props.StartPosOffsetY, targetPos.z + Props.StartPosOffsetZ);
 
             // 使用天空位置作为新的起始点
             base.Launch(launcher, skyStartPos, usedTarget, intendedTarget, hitFlags, preventFriendlyFire, equipment, targetCoverDef);
@@ -286,7 +286,7 @@ namespace MoManaCha_Astral_Prayer
                     Vector3 dustPos = impactPos + new Vector3(
                         Mathf.Cos(angle) * distance,
                         0.3f,
-                        Mathf.Sin(angle) * distance+0.3f
+                        Mathf.Sin(angle) * distance + 0.3f
                     );
 
                     // 使用XML定义的颜色和大小生成星尘

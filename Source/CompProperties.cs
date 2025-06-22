@@ -141,7 +141,7 @@ namespace MoManaCha_Astral_Prayer
         // --- 时间控制 ---
         public float duration = 5.0f;           // 引导总时长 (秒)
         public float pulseInterval = 0.2f;      // 每跳伤害间隔 (秒)
-
+        public float minSafeDistance = 2.0f;
         // --- 伤害类型 ---
         // 我们将在XML中直接链接这个字段
         public DamageDef damageDef;
