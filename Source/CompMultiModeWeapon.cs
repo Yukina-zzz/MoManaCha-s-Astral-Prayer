@@ -6,10 +6,6 @@ using Verse.Sound;
 
 namespace MoManaCha_Astral_Prayer
 {
-    /// <summary>
-    /// 一个简单的数据容器类，用于在XML中定义一个武器形态。
-    /// 它不是一个Def，只是一个普通的C#类，方便XML解析器加载数据。
-    /// </summary>
     public class ModeDef
     {
         public string label;

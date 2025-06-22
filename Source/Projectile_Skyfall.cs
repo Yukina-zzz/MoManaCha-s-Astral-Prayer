@@ -205,8 +205,10 @@ namespace MoManaCha_Astral_Prayer
                     Rand.Range(-Props.stardustVerticalSpread, Props.stardustVerticalSpread),
                     Rand.Range(-Props.stardustSpreadRadius, Props.stardustSpreadRadius)
                 );
-
-                FleckMaker.ThrowDustPuff(dustPos, Map, Props.stardustScale);
+                if (dustPos.ToIntVec3().InBounds(Map))
+                {
+                    FleckMaker.ThrowDustPuff(dustPos, Map, Props.stardustScale);
+                }
             }
         }
     }
@@ -249,8 +251,10 @@ namespace MoManaCha_Astral_Prayer
                         0f, // 保持在地面上
                         Mathf.Sin(angle) * def.projectile.explosionRadius * Props.targetingCircleRadiusFactor
                     );
-
-                    FleckMaker.ThrowDustPuff(circlePos, Map, Props.targetingCircleSmokeScale);
+                    if (circlePos.ToIntVec3().InBounds(Map))
+                    {
+                        FleckMaker.ThrowDustPuff(circlePos, Map, Props.targetingCircleSmokeScale);
+                    }
                 }
             }
         }
@@ -289,8 +293,10 @@ namespace MoManaCha_Astral_Prayer
                         Mathf.Sin(angle) * distance + 0.3f
                     );
 
-                    // 使用XML定义的颜色和大小生成星尘
-                    FleckMaker.ThrowDustPuff(dustPos, Map, Props.finalImpactDustScale);
+                    if (dustPos.ToIntVec3().InBounds(Map))
+                    {
+                        FleckMaker.ThrowDustPuff(dustPos, Map, Props.finalImpactDustScale);
+                    }
                 }
             }
         }
