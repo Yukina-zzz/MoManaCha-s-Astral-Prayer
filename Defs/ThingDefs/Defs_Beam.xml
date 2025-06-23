@@ -44,7 +44,7 @@
         <deathMessage>{0}被星穹光束湮灭了。</deathMessage>
         <hediff>Shredded</hediff>
         <hediffSolid>Crack</hediffSolid>
-        <impactSoundType>Bullet</impactSoundType>
+        <impactSoundType>Toxic</impactSoundType>
         <armorCategory>Heat</armorCategory>
         <buildingDamageFactor>2</buildingDamageFactor>
         <plantDamageFactor>2</plantDamageFactor>
